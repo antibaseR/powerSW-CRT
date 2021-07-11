@@ -186,8 +186,7 @@ ui <- navbarPage("Power Caculation in SW-CRT",
                             mainPanel(
                               tabsetPanel(
                                 tabPanel("Power", tableOutput("power")),
-                                tabPanel("Model Fit", tableOutput("modelfit")),
-                                tabPanel("Plot", plotlyOutput("plot"))
+                                tabPanel("Model Fit", tableOutput("modelfit"))
                               )
                             )
                           )
@@ -421,10 +420,6 @@ server= function(input, output) {
   })
   
   
-  output$plot <- renderPlotly({
-    plot_ly(power_tb(), x = ~N, y = ~power_trt_gy, type = 'scatter', mode = 'lines')
-  })
-
   
 }
 
