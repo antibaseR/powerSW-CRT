@@ -12,7 +12,7 @@ ui <- navbarPage("Power Caculation in SW-CRT",
 
                  theme = shinytheme("cosmo"),
 
-                 tabPanel("Instruction", includeMarkdown("introduction.rmd"), style = 'width:1000px;'),
+                 # tabPanel("Instruction", includeMarkdown("introduction.rmd"), style = 'width:1000px;'),
                  
 
                  tabPanel("App",

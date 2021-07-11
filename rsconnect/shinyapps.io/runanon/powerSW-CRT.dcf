@@ -1,0 +1,13 @@
+name: powerSW-CRT
+title: powerSW-CRT
+username:
+account: runanon
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4374806
+bundleId: 4808998
+url: https://runanon.shinyapps.io/powerSW-CRT/
+when: 1626035432.11564
+lastSyncTime: 1626035432.11566
+asMultiple: FALSE
+asStatic: FALSE
