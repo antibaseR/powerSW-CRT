@@ -125,7 +125,7 @@ ui <- navbarPage("Power Caculation in SW-CRT",
 
                               selectizeInput(
                                 "SIGMA"
-                                , "s.d. of random cluster effect"
+                                , "S.D. of random cluster effect"
                                 , choices = NULL
                                 , multiple = TRUE
                                 , options = list(create = TRUE)
@@ -138,7 +138,7 @@ ui <- navbarPage("Power Caculation in SW-CRT",
                               
                               selectizeInput(
                                 "SIGMA2"
-                                , "s.d. of random treatment effect"
+                                , "S.D. of random treatment effect"
                                 , choices = NULL
                                 , multiple = TRUE
                                 , options = list(create = TRUE)
