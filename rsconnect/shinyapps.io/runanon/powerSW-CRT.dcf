@@ -5,9 +5,9 @@ account: runanon
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4374806
-bundleId: 4809004
+bundleId: 4809188
 url: https://runanon.shinyapps.io/powerSW-CRT/
-when: 1626035563.97158
-lastSyncTime: 1626035563.9716
+when: 1626042906.70708
+lastSyncTime: 1626042906.7071
 asMultiple: FALSE
 asStatic: FALSE
