@@ -1,0 +1,216 @@
+
+
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+### Introduction
+
+This Shiny APP was developed under the paper *Sample Size and Power Determination in Stepped Wedge Cluster Randomized Trial Designs with Treatment Transition Periods*. The App allows users to do power calculation under (1) traditional SW-CRT settings as well as (2) SW-CRT with treatment transition periods. Both the **true model** (model for generating data) and the **fitted model** (model for fitting the generated data) are GLMM model based on the Hussey and Hughes model [1]. Users are allowed to provide their input of each parameter as vector, and the APP will automatically generate the power (as well as model fitting results) using **all combinations of the user inputs**. The results in *.csv* format can be downloaded. 
+
+### Parameter
+
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-7btt">Parameter</th>
+    <th class="tg-7btt">Description</th>
+    <th class="tg-7btt">Input</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-c3ow">seed</td>
+    <td class="tg-0pky">the seed for R's random number generator which helps reproduce the simulation and results</td>
+    <td class="tg-c3ow">integer</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">cell size</td>
+    <td class="tg-0pky">the number of subject per cluster, per group and per time point</td>
+    <td class="tg-c3ow">vector</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">cluster size</td>
+    <td class="tg-0pky">the number of randomization clusters at each time</td>
+    <td class="tg-c3ow">vector</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">group size</td>
+    <td class="tg-0pky">the number of groups within each randomization cluster</td>
+    <td class="tg-c3ow">vector</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">transition length</td>
+    <td class="tg-0pky">the length of the treatment transition period</td>
+    <td class="tg-c3ow">vector with value(s) &gt; 0; <br>a single 0 indicating standard SW-CRT</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">beta0</td>
+    <td class="tg-0pky">intercept of the model</td>
+    <td class="tg-c3ow">vector</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">beta4</td>
+    <td class="tg-0pky">treatment effect of treatment 4</td>
+    <td class="tg-c3ow">vector</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">rho34</td>
+    <td class="tg-0pky">treatment effect ration between treatment 3 and 4</td>
+    <td class="tg-c3ow">vector</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">rho13</td>
+    <td class="tg-0pky">treatment effect ration between treatment 1 and 3</td>
+    <td class="tg-c3ow">vector</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">rho24</td>
+    <td class="tg-0pky">treatment effect ration between treatment 2 and 4</td>
+    <td class="tg-c3ow">vector</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">time effect size<br></td>
+    <td class="tg-0pky">time effect;<br>the number of total time points = cluster size + transition length + 1;<br>if using a non-linear secular trend, please provide the time effect at each time point</td>
+    <td class="tg-c3ow">a single 0 indicating no secular trend; <br>a single nonzero value indicating a linear secular trend; <br>a vector with length &gt; 1 indicating a non-linear secular trend</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">s.d. of random cluster effect</td>
+    <td class="tg-0pky">the standard deviation of the random cluster effect</td>
+    <td class="tg-c3ow">vector with nonnegtive values</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">s.d. of random treatment effect</td>
+    <td class="tg-0pky">the standard deviation of the random treatment effect</td>
+    <td class="tg-c3ow">vector with nonnegtive values</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">iteration</td>
+    <td class="tg-0pky">the number of iteration of each simulation</td>
+    <td class="tg-c3ow">a single positive integer</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">val1 and val2</td>
+    <td class="tg-0pky">the APP will automatically conduct 2 test<br>test1: a * val1- b * val2 = 0<br>test2: val1 = val2 = 0</td>
+    <td class="tg-c3ow">choose the treatment effect of interests</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">linear combination</td>
+    <td class="tg-0pky">the linear combination of test 1: a * val1- b * val2 = 0</td>
+    <td class="tg-c3ow">a vector of length 2 with values of a and b</td>
+  </tr>
+</tbody>
+</table>
+
+$$
+$$
+
+
+
+### Fitted Model
+
+**Model 1: Fixed treatment effect with no secular trend**
+
+$logit(\mu_{ijk}) = \beta_0 + \beta_1*X_{trt_{1_{ij}}} + \beta_2*X_{trt_{2_{ij}}} + \beta_3 * X_{trt_{3_{ij}}} + \beta_4 * X_{trt_{4_{ij}}} + \zeta_{cluster_i}$
+
+**Model 2: Fixed treatment effect with linear secular trend**
+
+$logit(\mu_{ijk}) = \beta_0 + \beta_1*X_{trt_{1_{ij}}} + \beta_2*X_{trt_{2_{ij}}} + \beta_3 * X_{trt_{3_{ij}}} + \beta_4 * X_{trt_{4_{ij}}} + \tau * X_{time_j} + \zeta_{cluster_i}$
+
+**Model 3: Fixed treatment effect with non-linear secular trend**
+
+$logit(\mu_{ijk}) = \beta_0 + \beta_1*X_{trt_{1_{ij}}} + \beta_2*X_{trt_{2_{ij}}} + \beta_3 * X_{trt_{3_{ij}}} + \beta_4 * X_{trt_{4_{ij}}} + \tau_j + \zeta_{cluster_i}$
+
+**Model 4: Random treatment effect with no secular trend**
+
+$logit(\mu_{ijk}) = \beta_0 + \beta_1*X_{trt_{1_{ij}}} + \beta_2*X_{trt_{2_{ij}}} + \beta_3 * X_{trt_{3_{ij}}} + \beta_4 * X_{trt_{4_{ij}}} + \zeta_{cluster_i} + \zeta_{trt_i}$
+
+**Model 5: Random treatment effect with linear secular trend**
+
+$logit(\mu_{ijk}) = \beta_0 + \beta_1*X_{trt_{1_{ij}}} + \beta_2*X_{trt_{2_{ij}}} + \beta_3 * X_{trt_{3_{ij}}} + \beta_4 * X_{trt_{4_{ij}}} + \tau * X_{time_j} + \zeta_{cluster_i} + \zeta_{trt_i}$
+
+**Model 6: Random treatment effect with non-linear secular trend**
+
+$logit(\mu_{ijk}) = \beta_0 + \beta_1*X_{trt_{1_{ij}}} + \beta_2*X_{trt_{2_{ij}}} + \beta_3 * X_{trt_{3_{ij}}} + \beta_4 * X_{trt_{4_{ij}}} + \tau_j + \zeta_{cluster_i} + \zeta_{trt_i}$
+
+$$
+$$
+
+
+### Statistical Test
+
+The program will test the significance of each treatment effect individually. Besides, two hypothesis tests are conducted.
+
+**Test 1:** testing the equivalence of two treatment effects
+
+$H_0: \beta = \beta^{'}$
+
+**Test 2:** testing if two treatment effects equal to zero simutaneously
+
+$H_0: \beta = \beta^{'}=0$
+
+
+$$
+$$
+
+### Output
+
+The output consists of three parts:
+
+* Power
+  + power is generated based on the simulation using all combinations of the user input
+* Fitted model
+  + estimated coefficient, 95% CI and p-value of each treatment
+  + estimated coefficient, 95% CI and p-value of time when using linear secular trend in the fitted model
+  + 95% CI and p-value of the two hypothesis tests
+* Plot
+  + sample size curve
+  + effect size curve
+  + power curve
+
+$$
+$$
+
+### Package
+
+The required R packages are:
+
+```{r, eval=F}
+library(shiny)
+library(tidyverse)
+library(plotly)
+library(data.table)
+library(MASS)
+library(shinythemes)
+```
+
+
+$$
+$$
+
+### Reference
+
+[1] Hussey, Michael A., and James P. Hughes. "Design and analysis of stepped wedge cluster randomized trials." Contemporary clinical trials 28.2 (2007): 182-191.
+
+$$
+$$
+
+### Contact
+
+Xinlei Chen
+
+chenxinlei0725@gmail.com
+
+
